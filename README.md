@@ -30,7 +30,8 @@ Running Command
    of UpLin.
 
    1. Build as usual. You only need to type make command as follow:
-      $ make
+      
+     $ make
 
    2. Then you can run the prototype to verify the algorithm by the command 
       $/run -p property_name -e algorithm_name
