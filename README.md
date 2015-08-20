@@ -32,7 +32,11 @@ Running Command
    1. Build as usual. You only need to type make command as follow:
       $ make
 
-   2. /run  xxx where xxx is name of the algorithm which you want to verify
+   2. Then you can run the prototype to verify the algorithm by the command /run algorithms_mame.  
+   
+Input Structure
+==================
    
    
-   
+Linearization Point
+==================   
