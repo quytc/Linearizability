@@ -34,7 +34,9 @@ Running Command
      $ make
 
    2. Then you can run the prototype to verify the algorithm by the command 
+   
       $/run -p property_name -e algorithm_name
+
       where property_name can be "shape" or "linearizability" and algorithm_name is the name of the verified    algorithm.
    
 Input Structure
