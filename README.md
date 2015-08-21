@@ -61,15 +61,10 @@ Algorithm Structure
 
 
 | assign x y              |   <->   |     x := y          |
-|-------------------------|---------|---------------------|
 | data_assign x d         |   <->   |     x.data := d     |
-|-------------------------|---------|---------------------|
 | data_less_than x y      |   <->   |     x.data < y.data |
-|-------------------------|---------|---------------------|
 | data_equal x d          |   <->   |     x.data = d      |
-|-------------------------|---------|---------------------|
 | data_variable_equal x y |    <->  |     x.data = y.data |
-|-------------------------|---------|---------------------|
 data_inequal x d                 				<->       x.data <> d
 
 data_variable_inequal x y    				<->       x.data <> y.data
