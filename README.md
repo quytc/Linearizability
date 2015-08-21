@@ -39,7 +39,7 @@ Running Command
 
       where property_name can be "shape" or "linearizability" and algorithm_name is the name of the verified algorithm.
 
-Algorithm Structure
+Input file format
 ==================   
   Global: < var >
                 
