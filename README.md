@@ -41,8 +41,6 @@ Running Command
 
 Algorithm Structure
 ==================   
- Structure 
------------
   Global: < var >
                 
 // Structure of each method
@@ -63,7 +61,7 @@ Local:   < var >
   
       < statement_name > pc-(n-1) pc-n < para >
 
- < kill_thread > <pc-n> <pc-1>
+ < kill_thread > < pc-n > < pc-1 >
 
 | Prototype Statement                             | 	      Description		    |
 |--------------------------|--------------------------------|
