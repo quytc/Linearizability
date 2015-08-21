@@ -37,11 +37,18 @@ Running Command
    
       $/run -p property_name -e algorithm_name
 
-      where property_name can be "shape" or "linearizability" and algorithm_name is the name of the verified    algorithm.
+      where property_name can be "shape" or "linearizability" and algorithm_name is the name of the verified algorithm.
    
 Input Structure
 ==================
-   
+global: <var> ...
+
+local: <var> ...
+
+initial thread ⟨{<local var>}⟩:
+(<atomic pc1 pc2 > [(name_1 var_1 var_2 ... var_n),...,(name_n var_1 var_2 ... var_n)]
+kill thread
+
    
 Linearization Point
 ==================   
