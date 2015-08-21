@@ -66,6 +66,7 @@ Local:   < var >
 | Prototype Statement                             | 	      Description		    |
 |--------------------------|--------------------------------|
 | assign x y               |          x := y          	    |
+| assign x d               |          x := d          	    |
 | data_assign x d          |         x.data := d     	    |
 | data_less_than x y       |         x.data < y.data         |
 | data_equal x d           |         x.data = d      	    |
