@@ -59,7 +59,7 @@ Algorithm Structure
 
  <kill_thread> <pc-n> <pc-1>
 
-| Prototype Statement      | 	      C statement		    |
+| Prototype Statement                             | 	      Description		    |
 |--------------------------|--------------------------------|
 | assign x y               |          x := y          	    |
 | data_assign x d          |         x.data := d     	    |
@@ -78,7 +78,7 @@ Algorithm Structure
 |dot_next_assign x y 	|	    x.next := y|
 |assign_dot_next x y	|	 x := y.next|
 |linearize m a b	|	 obs (m, a, b): m: method,	a: observer value b: return value  |
-|linearize m1 a1 b1 m2 [pc-1,..,pc-n]  a2 b2 ord  |  if ord = 1 then obs (m1, a1, b1); obs (m2, a2, b2) else obs (m2, a2, b2); obs (m1, a1, b1): pc-1,...,pc-n are program counters of the method m2|
-|
+|linearize m1 a1 b1 m2 [pc-1,..,pc-n]  a2 b2 ord   |  if ord = 1 then obs (m1, a1, b1); obs (m2, a2, b2) else obs (m2, a2, b2); obs (m1, a1, b1): pc-1,...,pc-n are program counters of the method m2|
+
 
 
