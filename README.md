@@ -39,9 +39,10 @@ Running Command
       $/run -p property_name -e algorithm_name
 
       where property_name can be "shape" or "linearizability" and algorithm_name is the name of the verified algorithm.
+
 Input file format
 ==================   
-  Global: < var >
+Global: < var >
                 
 // Structure of each method
 
