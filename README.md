@@ -77,10 +77,7 @@ Algorithm Structure
 |next_inequal		|	 x.next <> y|
 |dot_next_assign x y 	|	    x.next := y|
 |assign_dot_next x y	|	 x := y.next|
-|linearize m a b	|	 update_observer (m, a, b) where |
-| 		|	m: method name|
-|		|	a:  observer value|
-|		|	 b:  return value  |
+|linearize m a b	|	 obs (m, a, b): m: method,	a: observer value b: return value  |
 |linearize m1 a1 b1 m2 [pc-1,..,pc-n]  a2 b2 ord  |  if ord = 1 then |
 |                                                  |       update_observer (m1, a1, b1); update_observer (m2, a2, b2)|
 |						|else |
