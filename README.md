@@ -41,23 +41,25 @@ Running Command
 
 Algorithm Structure
 ==================   
-  Global: < var >
-
-// Structure of each method
-
- Local:   < var >
-
- <initial_data_structure> < para > 
- 
-<initial_thread> <pc-1> <pc-2>  [ <local var>]
-
-  <statement_name> pc-3 pc-4 < para >
-  <statement_name> pc-4 pc-5 < para >
-  <statement_name> pc-5 pc-6 < para >
-  .....
-  <statement_name> pc-(n-1) pc-n < para >
-
- <kill_thread> <pc-n> <pc-1>
+| Structure |
+|-----------|
+|  Global: < var >|
+|                 |
+|// Structure of each method|
+||
+|Local:   < var >|
+||
+| <initial_data_structure> < para > |
+| |
+|<initial_thread> <pc-1> <pc-2>  [ <local var>]|
+||
+|  <statement_name> pc-3 pc-4 < para >|
+|  <statement_name> pc-4 pc-5 < para >|
+|  <statement_name> pc-5 pc-6 < para >|
+|  .....|
+|  <statement_name> pc-(n-1) pc-n < para >|
+||
+| <kill_thread> <pc-n> <pc-1>|
 
 | Prototype Statement                             | 	      Description		    |
 |--------------------------|--------------------------------|
