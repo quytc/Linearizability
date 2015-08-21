@@ -8,10 +8,10 @@ Target programs are list-based concurrent algothims such as stacks, queues, orde
 Installation
 ************
 
-UpLin can be compiled and installed on Window, MAC, UNIX-like systems. The only requirement is to install OCAML on your 
+The prototype can be compiled and installed on Window, MAC, UNIX-like systems. The only requirement is to install OCAML on your 
 computer.  You can follow the instruction from the OCAML webpage https://ocaml.org/docs/install.html#Windows  
 
-Getting UpLin
+Getting Prototype
 ===============
 
    Git users can clone UpLin as follows:
@@ -39,16 +39,3 @@ Running Command
 
       where property_name can be "shape" or "linearizability" and algorithm_name is the name of the verified algorithm.
    
-Input Structure
-==================
-global: <var> ...
-
-local: <var> ...
-
-initial thread ⟨{<local var>}⟩:
-(<atomic pc1 pc2 > [(name_1 var_1 var_2 ... var_n),...,(name_n var_1 var_2 ... var_n)]
-kill thread
-
-   
-Linearization Point
-==================   
