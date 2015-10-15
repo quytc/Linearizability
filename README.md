@@ -52,9 +52,7 @@ This is just early prototype, we have not made C-like syntax inputs for users. T
 
   let t = Label.local (1,"t",1)
   
-  let initial_predicates  =
-  
-  C.create_stack s 
+  let initial_predicates  = C.create_stack s 
   
   let predicate_transformers =
    [
@@ -66,13 +64,9 @@ This is just early prototype, we have not made C-like syntax inputs for users. T
   
    (new R.dot_next_assign 5 6 x t);
    
-   (new R.atomic 6 (-1) [(new R.cas_fail 6 (-1) s t x);]);
+   (new R.atomic 6 (7) [(new R.cas_fail 6 (7) s t x);]);
    
-   (new R.kill_variable (-1) 4 t);
-   
-   (new R.atomic 6 7 [ (new R.cas_success 6 77 s t x);
-   
-   (new R.validate_push 77 7 x);]); (*LINEARIZATION POINT*)
+   (new R.atomic 6 8 [ (new R.cas_success 6 8 s t x); (new R.validate_push 8 7 x);]); (*LINEARIZATION POINT*)
    
    (new R.kill_thread 7 0);
   
