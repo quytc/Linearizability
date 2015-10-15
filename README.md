@@ -55,7 +55,9 @@ This is just early prototype, we have not made C-like syntax inputs for users. T
   let initial_predicates  = C.create_stack s 
   
   let predicate_transformers =
+  
    [
+  
    (new R.atomic 0 1 [(new R.init_thread 0 1 [|x;t|]);]);
   
    (new R.new_cell 1 4 x);
