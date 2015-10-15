@@ -68,7 +68,7 @@ This is just early prototype, we have not made C-like syntax inputs for users. T
    
       11:(new R.cas_fail 6 (7) s t x);
    
-      12:(new R.atomic 6 8 [ (new R.cas_success 6 8 s t x); (new R.validate_push 8 7 x);]); (*LINEARIZATION POINT*)
+      12:(new R.atomic 6 8 [ (new R.cas_success 6 8 s t x); (new R.validate_push 8 7 x);]); 
    
       13:(new R.kill_thread 7 0);
   
@@ -76,5 +76,5 @@ This is just early prototype, we have not made C-like syntax inputs for users. T
 
 end
 
-In this method, variable declaration is modeld by the top four statements. The stack initialization is modeled by 
+In this method, variable declaration is modeld by the top four statements. The stack initialization is modeled by the statement at line 5. The statement at line 8 models a malloc statement in C syntax whereas statements at lines 9,10,11,12 model assign statement, pointer assignment statement, CAS statements respectivelly. Thread initialization is modeled by statements in line 7 while return statement is modeled by statement at line 13. Finally the controller rule is modeld by statement (new R.validate_push 8 7 x)  
 
