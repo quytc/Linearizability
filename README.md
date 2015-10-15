@@ -58,7 +58,7 @@ This is just early prototype, we have not made C-like syntax inputs for users. T
   
    [
   
-   (new R.atomic 0 1 [(new R.init_thread 0 1 [|x;t|]);]);
+   (new R.init_thread 0 1 [|x;t|]);
   
    (new R.new_cell 1 4 x);
   
@@ -66,7 +66,7 @@ This is just early prototype, we have not made C-like syntax inputs for users. T
   
    (new R.dot_next_assign 5 6 x t);
    
-   (new R.atomic 6 (7) [(new R.cas_fail 6 (7) s t x);]);
+   (new R.cas_fail 6 (7) s t x);
    
    (new R.atomic 6 8 [ (new R.cas_success 6 8 s t x); (new R.validate_push 8 7 x);]); (*LINEARIZATION POINT*)
    
