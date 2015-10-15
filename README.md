@@ -1,5 +1,7 @@
 
 # Linearizability
+Contact: Cong Quy Trinh, Department of Information Technology, Uppsala University
+Email: cong-quy.trinh@it.uu.se
 
 This is a prototype which verifies linearizabilitis of concurrent algorithms implemented by singly-linked lists. 
 The prototype is implemented by Ocalm and currently, it supports both fixed and non-fixed linearization points of algorithms. 
@@ -78,5 +80,5 @@ This is just early prototype, we have not made C-like syntax inputs for users. T
 end
 
  -------------------------------------------------------------------------------------------
-In this method, variable declaration is modeld by the top four statements. Stack initialisation is modeled by the statement at line 5. The statement at line 8 models a malloc statement(x = new Node) whereas the statements at lines 9,10,11,12 model assign statement(t = s), pointer assignment statement(x.next = t) and CAS statements respectively. Thread initialisation is modeled by the statement in line 7 while return statement is modeled by the statement at line 13. Finally the controller rule is modeld by statement (new R.validate_push 8 7 x)
+In this method, variable declaration is modeld by the top four statements. Stack initialisation is modeled by the statement at line 5. The statement at line 8 models a malloc statement(x = new Node) whereas the statements at lines 9,10,11,12 model assign statement(t = s), pointer assignment statement(x.next = t) and CAS statements respectively. Thread initialisation is modeled by the statement in line 7 while return statement is modeled by the statement at line 13. Finally the controller rule is modeld by statement (new R.validate_push 8 7 x). It takes some time to model algorithms by ocaml therefore if you have any problem with modeling you could contact me for help.
 
