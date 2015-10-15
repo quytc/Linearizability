@@ -46,11 +46,8 @@ This is just early prototype, we have not made C-like syntax inputs for users. T
 
 module C = Constraint
   module R = Rule  
-  
-  module Reset : Example.E = struct 
-  
+  module Reset : Example.E = struct
   let name = "Treiber"
-  
   let s = Label.global (3,"S", 1)
   
   let null = Label.nil
