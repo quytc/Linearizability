@@ -42,7 +42,7 @@ Running Command
 
 Input file format
 ==================   
-This is just early prototype, we have not made C-like syntax inputs for users. The input need to be modeled in ocaml structure. Each algorithm statement or controller rule is modeled by an ocaml function. Let us show an example of how the ocaml input look like
+This is just early prototype, we have not made C-like syntax inputs for users. The input now need to be modeled by ocaml. Each algorithm statement or controller rule is modeled by an ocaml function. Let us show an example of how the push method of treiber stack is modeled.
 
   let s = Label.global (3,"S", 1)
 
@@ -76,5 +76,5 @@ This is just early prototype, we have not made C-like syntax inputs for users. T
 
 end
 
-
+In this method, variable declaration is modeld by the top four statements. 
 
