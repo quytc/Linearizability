@@ -44,37 +44,37 @@ Input file format
 ==================   
 This is just early prototype, we have not made C-like syntax inputs for users. The input now need to be modeled by ocaml. Each algorithm statement or controller rule is modeled by an ocaml function. Let us show an example of how the push method of treiber stack is modeled.
 
-  let s = Label.global (3,"S", 1)
+  1:let s = Label.global (3,"S", 1)
 
-  let null = Label.nil
+  2:let null = Label.nil
 
-  let x = Label.local (0,"x",1)
+  3:let x = Label.local (0,"x",1)
 
-  let t = Label.local (1,"t",1)
+  4:let t = Label.local (1,"t",1)
   
-  let initial_predicates  = C.create_stack s 
+  5:let initial_predicates  = C.create_stack s 
   
-  let predicate_transformers =
+  6:let predicate_transformers =
   
    [
   
-   (new R.init_thread 0 1 [|x;t|]);
+      7: (new R.init_thread 0 1 [|x;t|]);
   
-   (new R.new_cell 1 4 x);
+      8: (new R.new_cell 1 4 x);
   
-   (new R.assign 4 5 t s);
+      9: (new R.assign 4 5 t s);
   
-   (new R.dot_next_assign 5 6 x t);
+      10:(new R.dot_next_assign 5 6 x t);
    
-   (new R.cas_fail 6 (7) s t x);
+      11:(new R.cas_fail 6 (7) s t x);
    
-   (new R.atomic 6 8 [ (new R.cas_success 6 8 s t x); (new R.validate_push 8 7 x);]); (*LINEARIZATION POINT*)
+      12:(new R.atomic 6 8 [ (new R.cas_success 6 8 s t x); (new R.validate_push 8 7 x);]); (*LINEARIZATION POINT*)
    
-   (new R.kill_thread 7 0);
+      13:(new R.kill_thread 7 0);
   
   ]
 
 end
 
-In this method, variable declaration is modeld by the top four statements. 
+In this method, variable declaration is modeld by the top four statements. The stack initialization is modeled by 
 
