@@ -45,49 +45,29 @@ Input file format
 This is just early prototype, we have not made C-like syntax inputs for users. The input need to be modeled in ocaml structure. Each algorithm statement or controller rule is modeled by an ocaml function. Let us show an example of how the ocaml input look like
 
 module C = Constraint
-  module R = Rule  
+module R = Rule  
   module Reset : Example.E = struct
   let name = "Treiber"
   let s = Label.global (3,"S", 1)
-  
   let null = Label.nil
-  
   let free = Label.free
-  
   let x = Label.local (0,"x",1)
-  
   let t = Label.local (1,"t",1)
-  
   let x' = Label.local (0,"x'",1)
-  
   let t' = Label.local (1,"t'",1)
-  
   let initial_predicates  =
-  
   C.create_stack s 
-  
   let predicate_transformers =
-  
    [
-   
     (* ============================ push ============================ *)
-    
    (new R.atomic 0 1 [(new R.init_thread 0 1 [|x;t|]);]);
-   
    (new R.new_cell 1 4 x);
-   
    (new R.assign 4 5 t s);
-   
    (new R.dot_next_assign_local 5 6 x t);
-   
    (new R.atomic 6 (-1) [(new R.cas_fail 6 (-1) s t x);]);
-   
    (new R.kill_variable (-1) 4 t);
-   
    (new R.atomic 6 7 [ (new R.cas_success 6 77 s t x);
-   
    (new R.validate_push 77 7 x);]); (*LINEARIZATION POINT*)
-   
    (new R.kill_thread 7 0);
   ]
 end
