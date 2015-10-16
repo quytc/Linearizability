@@ -39,7 +39,9 @@ Running Command
    
       2.1. Verifying safety:
       $/run -p shape -e algorithm_name
+
       2.2. Verifying linearizability:
+      
       $/run -p linearizability -e algorithm_name
       where algorithm_name is the name of the verified algorithm.
    For example: 
