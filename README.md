@@ -11,7 +11,7 @@ Target algorithms are list-based concurrent algothims such as stacks, queues, or
 Installation
 ===============
 
-The prototype can be compiled and installed on Window, MAC, UNIX-like systems. The only requirement is to install OCAML on your computer.  You can follow the instruction from the OCAML webpage https://ocaml.org/docs/install.html#Windows to install OCAML  
+The prototype can be compiled and installed on Window, MAC, UNIX-like systems. The only requirement is to install OCAML on your computer.  You can follow instructions from OCAML webpage https://ocaml.org/docs/install.html#Windows to install OCAML  
 
 Getting Prototype
 ===============
@@ -47,7 +47,15 @@ Running Command
       
       Where algorithm_name is the name of the verified algorithm.
       
-   For example: You can verify linearizability of Treiber algorithm by the command: $/run -p linearizability -e Treiber
+   For example: You can verify linearizability of Treiber algorithm by the command: $/run -p linearizability -e Treiber. 
+   
+   The algorthm examples can be found in \src\examples including 
+   + Stack: Treiber, HSYstack
+   + Queue: MS, TwolockMS; ElimMS; HWqueue; DGLM
+   + Lock-based set: Pessimistic, Optimistic, Lazyset
+   + Lock-free set: Vechev, Vechev_CAS, Vechev_DCAS, HMset, THarris, MMichael
+   + Unordered set: Unordered
+   + CAS algorithm: CCAS, RDCSS
 Input file format
 ==================   
 This is just early prototype, we have not made C-like syntax inputs for users. The input now need to be modeled by OCAML. Each algorithm statement or controller rule is modeled by an OCAML function. Let us show an example of how the push method of treiber stack is modeled.
