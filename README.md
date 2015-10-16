@@ -3,16 +3,16 @@
 Contact: Cong Quy Trinh, Department of Information Technology, Uppsala University
 Email: cong-quy.trinh@it.uu.se
 
-This is a prototype which verifies linearizabilitis of concurrent algorithms implemented by singly-linked lists. 
-The prototype is implemented by Ocalm and currently, it supports both fixed and non-fixed linearization points of algorithms. 
+This prototype is designed to verify lilearizability of concurrent algorithms implemented by singly-linked lists. 
+The prototype is implemented by Ocalm and currently and supports both fixed and non-fixed linearization points of algorithms. 
 
-Target programs are list-based concurrent algothims such as stacks, queues, ordered sets, unordered sets and CCAS.
+Target algorithms are list-based concurrent algothims such as stacks, queues, ordered sets, unordered sets and CCAS.
 
 Installation
-************
+===============
 
 The prototype can be compiled and installed on Window, MAC, UNIX-like systems. The only requirement is to install OCAML on your 
-computer.  You can follow the instruction from the OCAML webpage https://ocaml.org/docs/install.html#Windows  
+computer.  You can follow the instruction from the OCAML webpage https://ocaml.org/docs/install.html#Windows to install OCAML  
 
 Getting Prototype
 ===============
