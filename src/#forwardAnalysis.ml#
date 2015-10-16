@@ -1,0 +1,384 @@
+open Printf
+
+module C = Constraint
+module R = Rule
+module Q = WorkQueue (* After experimentation: faster with Queue than with plain list *)
+
+module Algorithm (E : Example.E) = struct
+
+  let debug = false
+  let automaton = false
+
+  module JS = Joinset.Make(C)
+(*   module JS = Joinset.Make(struct *)
+(*     type t = C.t *)
+(*     let join = C.join *)
+(*     let compare_world_0 = C.strict_compare *)
+(*     let compare_world_1 = C.strict_compare *)
+(*     let swap = C.swap *)
+(*   end) *)
+
+  let clash p = Observer.is_bad (C.observer p)
+      
+  let verify property = begin
+
+    assert( Debug.print "%s Warning: with Assertions %s" Debug.red Debug.noColor; true );
+    Debug.print "\n %s (property: %s)\t%s\n\t" E.name property (Globals.get_options ());
+
+    let observer = Observer.build property in
+    let transformers = E.predicate_transformers observer in
+    let interferers = List.filter R.is_interf transformers in
+    let pc_interferers = List.fold_left (fun acc r -> if not(List.mem r#fromPC acc) then r#fromPC :: acc else acc) [] interferers in
+    let pc_interferers' = Array.of_list pc_interferers in
+    Array.fast_sort Pervasives.compare pc_interferers';
+    let nb_interesting = Array.length pc_interferers' - 1 in
+
+    let is_one_interesting pcs : bool = begin
+      Array.fast_sort Pervasives.compare pcs;
+      (* let length = Array.length pcs - 1 in *)
+      let rec inspect i current =
+	if current > nb_interesting || i > 2 (* length *)
+	then false
+	else match Pervasives.compare pcs.(i) pc_interferers'.(current) with
+	| cv when cv < 0 -> inspect (i+1) current
+	| cv when cv > 0 -> inspect i (current+1)
+	| _ (* 0, equal *) -> (*I found an interesting one *) true (* parse (i+1) (current+1) *)
+      in inspect 0 0
+    end 
+    and is_interesting pc : bool = begin
+      let rec inspect current = 
+	if current > nb_interesting then false
+	else match Pervasives.compare pc pc_interferers'.(current) with | cv when cv<0 -> false | cv when cv>0 -> inspect (current+1) | _ (* 0, equal *) -> true
+      in inspect 0
+    end in
+    
+    let prios = Observer.nb_priorities observer in
+    let system = JS.create (fun p -> Observer.priority_of_state observer (C.observer p)) prios in
+    let w = Q.create (fun p -> Observer.priority_of_state observer (C.observer p)) prios in
+    let slice = Q.create (fun p -> Observer.priority_of_state observer (C.observer p)) prios in
+
+    let discarded = ref 0 in
+
+    let rec work _ = begin (* make the call tail-recursive *)
+      if !Globals.progress then print_progress w;
+      let _current = try Some (Q.take w) with Q.ObserverSaturated -> None in
+      match _current with
+      | None -> ()
+      | Some current ->
+	  C.set_in_queue current false;
+	  if not(C.in_slice current) then begin C.set_in_slice current true; Q.add current slice; end;
+	  assert( C.in_slice current );
+	  List.iter (fun (r:R.t) -> List.iter insert_in_system (R.post r current)) transformers;
+	  work ()
+    end
+    and insert_in_system (predicate:C.t) = begin
+      if clash predicate then raise (C.ClashWithInit predicate);
+      match JS.insert system predicate with
+      | Some guy,_ -> add_to_w guy
+      | None, _ -> incr discarded;
+    end
+    and add_to_w p = begin
+      if not(C.in_queue p) then begin
+	C.set_in_queue p true;
+	Q.add p w;
+      end;
+    end
+    and abstract_work _ = begin 
+      let obs = Q.min slice in
+      if !Globals.progress then print_progress slice;
+      let _current = try Some (Q.take slice) with Q.ObserverSaturated -> None in (* make the call tail-recursive *)
+      match _current with
+      | None -> ()
+      | Some ij ->
+	  C.set_in_slice ij false;
+	  assert( obs = Observer.priority_of_state observer (C.observer ij) );
+	  
+	  let enlarge ij jk ik = begin
+	    match C.extend ij jk ik with
+	    | Some body -> (* Debug.print "Working on [ %2d ; %2d ; %2d ] from (%d) (%d) (%d)\n" pc_i pc_j pc_k (C.id ij) (C.id jk) (C.id ik); *)
+		List.iter (fun (r:R.t) -> begin
+		  List.iter (fun (thi,child) -> insert_in_system (C.trim child thi);) (R.post_interf r body is_interesting)
+		end) interferers;
+	      | None -> ()
+	  end in
+
+	  JS.iter_extensions system obs ij (fun (jk,ik) -> begin
+	    let pc_i = C.logical_pc ij 0 in
+	    let pc_j = C.logical_pc ij 1 in
+	    let pc_k = C.logical_pc jk 1 in
+	    assert( C.logical_pc jk 0 = pc_j );
+	    if is_one_interesting [|pc_i;pc_j;pc_k|] then enlarge ij jk ik;
+	  end);
+	  abstract_work ()
+    end
+    and print_info obs = begin
+      Debug.print "At observer %s\n" (Observer.string_of_priority observer obs);
+      Debug.level (1);
+      Debug.print "   System: %-7d | Total: %d\n" (JS.size_prio obs system) (JS.size system);
+      Debug.print "        w: %-7d | Total: %d\n" (Q.size_prio obs w) (Q.size w);
+      Debug.print "    slice: %-7d | Total: %d\tdiscarded: %d \t MaxID: %d\n" (Q.size_prio obs slice) (Q.size slice) !discarded !C.maxID;
+      Debug.level (-1);
+    end
+    and print_progress q = begin
+      Globals.print_progress (Q.size q) (Q.max_size q);
+      Debug.print "(%d)\tSystem: %d" (Q.size q) (JS.size system);
+      Debug.print " | Split count: %d" !C.scount
+    end
+    in
+
+    let org_time = Sys.time () in
+    let start_time = ref org_time in
+
+    let rec dothejob _ = begin
+      let obs = Q.min w in
+      if !Globals.progress then begin
+	start_time := Sys.time ();
+	Debug.print "%s ========== Working at observer %s | Time: %.2f s | System: %d ========== %s\n"
+	  Debug.blue (Observer.string_of_priority observer obs) (!start_time  -. org_time) (JS.size system) Debug.noColor;
+	print_info obs;
+      end;
+
+      work ();
+      
+      if !Globals.progress then begin
+	let time = Sys.time () in
+	Debug.print "\nPost completed.\nTime: %.2f s | Accumulated time: %.2f s\n" (time  -. !start_time) (time  -. org_time);
+	print_info obs;
+      end;
+
+      abstract_work ();
+      if !Globals.progress then Debug.print "\nAbstract post completed\n";
+      
+      if Q.size w > 0 then dothejob ();
+    end in
+    
+    if debug then Debug.print "Interferers: %s\n" (Array.fold_left (sprintf "%s%d,") "" pc_interferers');
+
+    if automaton then begin
+      Debug.print "Observer (automaton:%s):\n%s\n" property (Observer.string_of observer);
+      Globals.mkdir "tmp";
+      Observer.to_dot observer (sprintf "tmp/automaton-%s" property);
+    end;
+
+    (* Initialization *)
+    List.iter insert_in_system (E.initial_predicates observer);
+    if !Globals.results then begin
+      Globals.mkdir "tmp/initials";
+      JS.iter system (fun p -> begin
+	C.to_dot p (sprintf "tmp/initials/%s-%s" 
+		      (Observer.string_of_state (C.observer p))
+		      (let res = ref "" in for i=0 to C.nthreads p - 1 do res := sprintf "%s%d-" !res (C.logical_pc p i); done; !res)
+		      (* (C.id p) *));
+      end);
+    end;
+    try
+      dothejob ();
+      Debug.print "Time: %.2f s | System: %d \n" ((Sys.time ()) -. org_time) (JS.size system);
+
+      if !Globals.results then begin
+	Globals.mkdir "tmp/finals";
+	JS.iter system (fun p -> begin
+	  C.to_dot p (sprintf "tmp/finals/%s-%s" 
+			(Observer.string_of_state (C.observer p))
+			(let res = ref "" in for i=0 to C.nthreads p - 1 do res := sprintf "%s%d-" !res (C.logical_pc p i); done; !res)
+		      (* (C.id p) *));
+	end);
+      end;
+    with
+    | C.Dangling (p,reason) ->
+	Debug.print "Dangling pointer: ";
+	if !Globals.progress then begin
+	  Debug.print "\nin %s\nfrom %s\n" (C.string_of p) (Lazy.force reason);
+	  C.to_dot p "tmp/dangling";
+	  C.print_trace p "tmp/dangling/trace";
+	end;
+	Debug.print "Time: %.2f s | System: %d \n" ((Sys.time ()) -. org_time) (JS.size system);
+    | C.NullPointerDereferencing (p,reason) ->
+	Debug.print "Null pointer dereferencing: ";
+	if !Globals.progress then begin
+	  Debug.print "\nin %s\nfrom %s\n" (C.string_of p) (Lazy.force reason);
+	  C.to_dot p "tmp/nullpointer";
+	  C.print_trace p "tmp/nullpointer/trace";
+	end;
+	Debug.print "Time: %.2f s | System: %d \n" ((Sys.time ()) -. org_time) (JS.size system);
+    | C.FreeDereferencing (p,reason) ->
+	Debug.print "Free cell dereferencing: ";
+	if !Globals.progress then begin
+	  Debug.print "\nin %s\nfrom %s\n" (C.string_of p) (Lazy.force reason);
+	  C.to_dot p "tmp/free_dereferencing";
+	  C.print_trace p "tmp/free_dereferencing/trace";
+	end;
+	Debug.print "Time: %.2f s | System: %d \n" ((Sys.time ()) -. org_time) (JS.size system);
+    | C.Cycle (p,reason) ->
+	Debug.print "Cycle creation: ";
+	if !Globals.progress then begin
+	  Debug.print "\nin %s\nfrom %s\n" (C.string_of p) (Lazy.force reason);
+	  C.to_dot p "tmp/cycle";
+	  C.print_trace p "tmp/cycle/trace";
+	end;
+	Debug.print "Time: %.2f s | System: %d \n" ((Sys.time ()) -. org_time) (JS.size system);
+    | C.DoubleFree (p,reason) ->
+	Debug.print "Double-free: ";
+	if !Globals.progress then begin
+	  Debug.print "\nin %s\nfrom %s\n" (C.string_of p) (Lazy.force reason);
+	  C.to_dot p "tmp/double-free";
+	  C.print_trace p "tmp/double-free/trace";
+	end;
+	Debug.print "Time: %.2f s | System: %d \n" ((Sys.time ()) -. org_time) (JS.size system);
+    | C.ClashWithInit p ->
+	Debug.print "Observed a bad trace: ";
+	if !Globals.progress then begin
+	  Debug.print "\nin %s\n" (C.string_of p);
+	  C.to_dot p "tmp/clash";
+	  C.print_trace p "tmp/clash/trace";
+	end;
+	Debug.print "Time: %.2f s | System: %d \n" ((Sys.time ()) -. org_time) (JS.size system);
+    | Invalid_argument reason -> failwith(sprintf "%s Invalid argument: %s %s" Debug.red reason Debug.noColor);
+  end
+
+end
+    
+
+module Test (E : Example.E) (E' : Example.E) = struct
+
+  module JS = Joinset.Make(struct
+    type t = C.t
+    let join = C.join
+    let compare_world_0 = C.strict_compare
+    let compare_world_1 = C.strict_compare
+    let swap = C.swap
+  end)
+
+  let clash p = Observer.is_bad (C.observer p)
+      
+  let verify property = begin
+
+    assert( Debug.print "%s Warning: with Assertions %s" Debug.red Debug.noColor; true );
+
+    let observer = Observer.build property in
+    let prios = Observer.nb_priorities observer in
+
+    let transformers = E.predicate_transformers observer in
+    let transformers' = E'.predicate_transformers observer in
+
+    let system = JS.create (fun p -> Observer.priority_of_state observer (C.observer p)) prios in
+    let w = Q.create (fun p -> Observer.priority_of_state observer (C.observer p)) prios in
+
+    let system' = JS.create (fun p -> Observer.priority_of_state observer (C.observer p)) prios in
+    let w' = Q.create (fun p -> Observer.priority_of_state observer (C.observer p)) prios in
+
+    let rec work _ = begin (* make the call tail-recursive *)
+      let _current = try Some (Q.take w) with Q.ObserverSaturated -> None in
+      let _current' = try Some (Q.take w') with Q.ObserverSaturated -> None in
+      match _current,_current' with
+      | None,None -> ()
+      | Some current,Some current' ->
+	  C.set_in_queue current false;
+	  C.set_in_queue current' false;
+	  if List.length transformers <> List.length transformers' then failwith("list length");
+	  List.iter2 (fun r r' -> begin
+	    let post = R.post r current in
+	    let post' = R.post r' current' in
+	    if List.length post <> List.length post' then begin
+	      C.to_dot current "tmp/current";
+	      C.to_dot current' "tmp/current'";
+	      List.iter (fun p -> C.to_dot p (sprintf "tmp/post/%d" (C.id p));) post;
+	      List.iter (fun p -> C.to_dot p (sprintf "tmp/post2/%d" (C.id p));) post';
+	      Debug.print "System: %d | System': %d\n" (JS.size system) (JS.size system');
+	      failwith "gotcha early";
+	    end;
+	    
+	    List.iter2 (fun p p' -> begin
+	      insert_in_system p;
+	      insert_in_system' p';
+	      if JS.size system > JS.size system' then begin
+		C.to_dot current "tmp/current";
+		C.to_dot current' "tmp/current'";
+		List.iter (fun p -> C.to_dot p (sprintf "tmp/post/%d" (C.id p));) post;
+		List.iter (fun p -> C.to_dot p (sprintf "tmp/post'/%d" (C.id p));) post';
+		Debug.print "System: %d | System': %d\n" (JS.size system) (JS.size system');
+		failwith "gotcha";
+	      end;
+	    end) post post';
+	  end) transformers transformers';
+	  work ()
+      |	_ -> failwith("pb")
+    end
+    and insert_in_system (predicate:C.t) = match JS.insert system predicate with | Some guy,_ -> add_to w guy | None, _ -> ()
+    and insert_in_system' (predicate:C.t) = match JS.insert system' predicate with | Some guy,_ -> add_to w' guy | None, _ -> ()
+    and add_to w p = if not(C.in_queue p) then (C.set_in_queue p true; Q.add p w;);
+    in
+
+    (* Initialization *)
+    List.iter insert_in_system (E.initial_predicates observer);
+    List.iter insert_in_system' (E'.initial_predicates observer);
+    work ();
+  end
+
+end
+
+module Post (E : Example.E) = struct
+
+  module JS = Joinset.Make(C)
+
+  let clash p = Observer.is_bad (C.observer p)
+      
+  let verify property = begin
+
+    assert( Debug.print "%s Warning: with Assertions %s" Debug.red Debug.noColor; true );
+    Debug.print "\n %s (property: %s)\t%s\n\t" E.name property (Globals.get_options ());
+
+    let observer = Observer.build property in
+    let prios = Observer.nb_priorities observer in
+
+    let transformers = E.predicate_transformers observer in
+    let system = JS.create (fun p -> Observer.priority_of_state observer (C.observer p)) prios in
+    let w = Q.create (fun p -> Observer.priority_of_state observer (C.observer p)) prios in
+
+    let rec work _ = begin (* make the call tail-recursive *)
+      let _current = try Some (Q.take w) with Q.ObserverSaturated -> if Q.size w = 0 then None else Some(Q.take w) in
+      match _current with
+      | None -> ()
+      | Some current ->
+	  C.set_in_queue current false;
+	  List.iter (fun r -> List.iter insert_in_system (R.post r current)) transformers;
+	  work ()
+    end
+    and insert_in_system (predicate:C.t) =
+      if clash predicate then raise (C.ClashWithInit predicate);
+      match JS.insert system predicate with
+      | Some p,_ -> begin
+(* 	C.to_dot p (sprintf "tmp/post/%d" (C.id p)); *)
+	assert( C.is_sane p );
+(* 	if C.logical_pc p 0 = 7 || C.logical_pc p 1 = 7 then *)
+(* 	  C.to_dot p (sprintf "tmp/%s/push/%d" (Observer.string_of_state (C.observer p)) (C.id p)); *)
+
+	if C.logical_pc p 0 = 18 || C.logical_pc p 1 = 18 then
+	  C.to_dot p (sprintf "tmp/%s/pop/%d" (Observer.string_of_state (C.observer p)) (C.id p));
+
+(* 	if C.logical_pc p 0 = 0 && C.logical_pc p 1 = 0 then *)
+(* 	  C.to_dot p (sprintf "tmp/0-0/%d" (C.id p)); *)
+
+(* 	if Observer.string_of_state (C.observer p) = "2" && (C.logical_pc p 0 = 13 || C.logical_pc p 1 = 13) then *)
+(* 	  C.to_dot p (sprintf "tmp/2/%d" (C.id p)); *)
+
+	if not(C.in_queue p) then begin
+	  C.set_in_queue p true;
+	  Q.add p w;
+	end;
+    end
+    | None, _ -> ()
+    in
+
+    Debug.print "Observer (automaton:%s):\n%s\n" property (Observer.string_of observer);
+    Globals.mkdir "tmp";
+    Observer.to_dot observer (sprintf "tmp/automaton-%s" property);
+
+    List.iter insert_in_system (E.initial_predicates observer);
+    JS.iter system (fun p -> C.to_dot p (sprintf "tmp/initials/%d" (C.id p)));
+    let org_time = Sys.time () in
+    work ();
+    Debug.print "Time: %.2f s | System: %d \n" ((Sys.time ()) -. org_time) (JS.size system);
+  end
+
+end

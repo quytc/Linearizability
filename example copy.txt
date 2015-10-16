@@ -1,0 +1,14 @@
+
+global: s
+create_stack s;
+
+method add(x) {
+   local t;
+2: [x’ := new;]							:3
+3: [t := S;] 							:4
+4: [x.next := t;]						:5
+5: [cas_success (s,t,x); linearize (push, x, true); ]		:6
+5: [cas_fail (s,t,x);]						:6
+6: return 							:7
+7: }
+

@@ -1,0 +1,7 @@
+(* type t *)
+(* val get_value: s v = assert(Label.is_local v); fst s.(Label.unpack v) *)
+(* val set_value: s v d = assert(Label.is_local v); s.(Label.unpack v) <- d, snd s.(Label.unpack v) *)
+(* val get_org_value: s v = assert(Label.is_local v); snd s.(Label.unpack v) *)
+(* val set_org_value: t -> s v d = assert(Label.is_local v); s.(Label.unpack v) <- d,d *)
+(* val create: int -> t *)
+(* val clone: t -> t *)
