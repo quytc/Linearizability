@@ -37,7 +37,7 @@ Running Command
 
    2. Then you can run the prototype to verify the algorithm by the command 
    
-      2.1. Verifying safety:
+      2.1. Verifying shape properties:
 
          $/run -p shape -e algorithm_name
 
