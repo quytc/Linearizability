@@ -16,7 +16,7 @@ The prototype can be compiled and installed on Window, MAC, UNIX-like systems. T
 Getting Prototype
 ===============
 
-   Git users can clone UpLin as follows:
+   Git users can clone the prototype as follows:
 
    $ git clone https://github.com/quytc/Linearizability.git
 
