@@ -4,7 +4,7 @@ Contact: Cong Quy Trinh, Department of Information Technology, Uppsala Universit
 Email: cong-quy.trinh@it.uu.se
 
 This prototype is designed to verify lilearizability of concurrent algorithms implemented by singly-linked lists. 
-The prototype is implemented by Ocalm and currently and supports both fixed and non-fixed linearization points of algorithms. 
+The prototype is implemented by OCAML and supports algorithms with both fixed and non-fixed linearization points. 
 
 Target algorithms are list-based concurrent algothims such as stacks, queues, ordered sets, unordered sets and CCAS.
 
