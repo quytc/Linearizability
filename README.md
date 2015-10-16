@@ -38,13 +38,15 @@ Running Command
    2. Then you can run the prototype to verify the algorithm by the command 
    
       2.1. Verifying safety:
+
       $/run -p shape -e algorithm_name
 
       2.2. Verifying linearizability:
       
       $/run -p linearizability -e algorithm_name
+      
       where algorithm_name is the name of the verified algorithm.
-   For example: 
+   For example: You can verify linearizability of Treiber algorithm by the command: $/run -p linearizability -e Treiber
 Input file format
 ==================   
 This is just early prototype, we have not made C-like syntax inputs for users. The input now need to be modeled by ocaml. Each algorithm statement or controller rule is modeled by an ocaml function. Let us show an example of how the push method of treiber stack is modeled.
