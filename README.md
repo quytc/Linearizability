@@ -46,6 +46,7 @@ Running Command
       $/run -p linearizability -e algorithm_name
       
       where algorithm_name is the name of the verified algorithm.
+      
    For example: You can verify linearizability of Treiber algorithm by the command: $/run -p linearizability -e Treiber
 Input file format
 ==================   
