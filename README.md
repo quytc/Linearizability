@@ -11,8 +11,7 @@ Target algorithms are list-based concurrent algothims such as stacks, queues, or
 Installation
 ===============
 
-The prototype can be compiled and installed on Window, MAC, UNIX-like systems. The only requirement is to install OCAML on your 
-computer.  You can follow the instruction from the OCAML webpage https://ocaml.org/docs/install.html#Windows to install OCAML  
+The prototype can be compiled and installed on Window, MAC, UNIX-like systems. The only requirement is to install OCAML on your computer.  You can follow the instruction from the OCAML webpage https://ocaml.org/docs/install.html#Windows to install OCAML  
 
 Getting Prototype
 ===============
