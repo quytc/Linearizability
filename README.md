@@ -56,6 +56,8 @@ Running Command
       + Lock-free set: Vechev, Vechev_CAS, Vechev_DCAS, HMset, THarris, MMichael
       + Unordered set: Unordered
       + CAS algorithm: CCAS, RDCSS
+
+
 Input file format
 ==================   
 This is just early prototype, we have not made C-like syntax inputs for users. The input now need to be modeled by OCAML. Each algorithm statement or controller rule is modeled by an OCAML function. Let us show an example of how the push method of treiber stack is modeled.
