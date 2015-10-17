@@ -49,7 +49,7 @@ Running Command
       
    For example: You can verify linearizability of Treiber algorithm by the command: $/run -p linearizability -e Treiber. 
    
-   The algorthm examples can be found in \src\examples including 
+   The algorithm examples can be found in \src\examples including 
       + Stack: Treiber, HSYstack
       + Queue: MS, TwolockMS; ElimMS; HWqueue; DGLM
       + Lock-based set: Pessimistic, Optimistic, Lazyset
@@ -60,7 +60,7 @@ Running Command
 
 Input file format
 ==================   
-This is just early prototype, we have not made C-like syntax inputs for users. The input now need to be modeled by OCAML. Each algorithm statement or controller rule is modeled by an OCAML function. Let us show an example of how the push method of treiber stack is modeled.
+This is just early prototype, we have not made C-like syntax inputs for users. The input now need to be modelled by OCAML. Each algorithm statement or controller rule is modeled by an OCAML function. Let us show an example of how the push method of treiber stack is modelled.
 
 -------------------------------------------------------------------------------------------
   1:let s = Label.global (3,"S", 1)
@@ -97,12 +97,12 @@ end
 
  -------------------------------------------------------------------------------------------
 In this method, the modelling is done as following:
-   + Variable declaration is modeld by the top four statements. 
-   + Stack initialisation is modeled by the statement at line 5. T
-   + The statement at line 8 models a malloc statement(x = new Node) 
-   + Tthe statements at lines 9,10,11,12 model assign statement(t = s), pointer assignment statement(x.next = t) and CAS statements respectively. 
-   + Thread initialisation is modeled by the statement at line 7 while return statement is modeled by the statement at line 13. 
-   + Finally the controller rule is modeld by statement (new R.validate_push 8 7 x). 
+   + Variable declaration is modelled by the top four statements. 
+   + Stack initialisation is modelled by the statement at line 5. T
+   + The statement at line 8 models malloc statement(x = new Node) 
+   + The statements at lines 9,10,11,12 model assign statement(t = s), pointer assignment statement(x.next = t) and CAS statements respectively. 
+   + Thread initialisation is modelled by the statement at line 7 while return statement is modeled by the statement at line 13. 
+   + Finally the controller rule is modelled by statement (new R.validate_push 8 7 x). 
  
-It might take some efforts to model algorithms by OCAML therefore if you have any problem with modeling you could contact me for help.
+It might take some efforts to model algorithms by OCAML therefore if you have any problem with modelling you could contact me for help.
 
