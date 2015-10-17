@@ -101,8 +101,8 @@ In this method, the modelling is done as following:
    + Stack initialisation is modeled by the statement at line 5. T
    + The statement at line 8 models a malloc statement(x = new Node) 
    + Tthe statements at lines 9,10,11,12 model assign statement(t = s), pointer assignment statement(x.next = t) and CAS statements respectively. 
-   + Thread initialisation is modeled by the statement in line 7 while return statement is modeled by the statement at line 13. 
+   + Thread initialisation is modeled by the statement at line 7 while return statement is modeled by the statement at line 13. 
    + Finally the controller rule is modeld by statement (new R.validate_push 8 7 x). 
  
-It takes some time to model algorithms by ocaml therefore if you have any problem with modeling you could contact me for help.
+It might take some efforts to model algorithms by OCAML therefore if you have any problem with modeling you could contact me for help.
 
