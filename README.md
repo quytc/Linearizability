@@ -6,12 +6,24 @@ Email: cong-quy.trinh@it.uu.se
 This prototype is designed to verify lilearizability of concurrent algorithms implemented by singly-linked lists. 
 The prototype is implemented by OCAML and supports algorithms with both fixed and non-fixed linearization points. 
 
-Target algorithms are list-based concurrent algothims such as stacks, queues, ordered sets, unordered sets and CCAS.
+Target algorithms are list-based concurrent algorithms such as stacks, queues, ordered sets, unordered sets and CCAS.
+- Arrays
+
+   Our prototype does not currently support arrays, and hence we have transformed arrays to singly-linked lists in the algorithms that use the former.
+
+- Shape Properties
+
+   Our prototype is also capable of verifying memory related safety properties such as the absence of
+   null pointer dereferencing, dangling pointers,  double-freeing, cycles, and dereferencing of freed nodes, as well as  sortedness. In fact,  for each algorithm, the time reported  is the sum of the times taken to show linearizability and all the properties mentioned above.
+
 
 Installation
 ===============
 
-The prototype can be compiled and installed on Window, MAC, UNIX-like systems. The only requirement is to install OCAML on your computer.  You can follow instructions from OCAML webpage https://ocaml.org/docs/install.html#Windows to install OCAML  
+You will need: 
+
+* ocaml compiler (tested with version 4.01.1)
+* make  
 
 Getting Prototype
 ===============
@@ -49,7 +61,7 @@ Running Command
       
    For example: You can verify linearizability of Treiber algorithm by the command: $/run -p linearizability -e Treiber. 
    
-   The algorthm examples can be found in \src\examples including 
+   The algorithm examples can be found in \src\examples including 
       + Stack: Treiber, HSYstack
       + Queue: MS, TwolockMS; ElimMS; HWqueue; DGLM
       + Lock-based set: Pessimistic, Optimistic, Lazyset
@@ -60,7 +72,7 @@ Running Command
 
 Input file format
 ==================   
-This is just early prototype, we have not made C-like syntax inputs for users. The input now need to be modeled by OCAML. Each algorithm statement or controller rule is modeled by an OCAML function. Let us show an example of how the push method of treiber stack is modeled.
+This is just early prototype, we have not made C-like syntax inputs for users. The input now need to be modelled by OCAML. Each algorithm statement or controller rule is modeled by an OCAML function. Let us show an example of how the push method of treiber stack is modelled.
 
 -------------------------------------------------------------------------------------------
   1:let s = Label.global (3,"S", 1)
@@ -97,12 +109,12 @@ end
 
  -------------------------------------------------------------------------------------------
 In this method, the modelling is done as following:
-   + Variable declaration is modeld by the top four statements. 
-   + Stack initialisation is modeled by the statement at line 5. T
-   + The statement at line 8 models a malloc statement(x = new Node) 
-   + Tthe statements at lines 9,10,11,12 model assign statement(t = s), pointer assignment statement(x.next = t) and CAS statements respectively. 
-   + Thread initialisation is modeled by the statement in line 7 while return statement is modeled by the statement at line 13. 
-   + Finally the controller rule is modeld by statement (new R.validate_push 8 7 x). 
+   + Variable declaration is modelled by the top four statements. 
+   + Stack initialisation is modelled by the statement at line 5. 
+   + The statement at line 8 models the malloc statement(x = new Node) 
+   + The statements at lines 9,10,11,12 model the assign statement(t = s), pointer assignment statement(x.next = t) and CAS statements respectively. 
+   + Thread initialisation is modelled by the statement at line 7 while return statement is modeled by the statement at line 13. 
+   + Finally the controller rule is modelled by statement (new R.validate_push 8 7 x). 
  
-It takes some time to model algorithms by ocaml therefore if you have any problem with modeling you could contact me for help.
+It might take some efforts to model algorithms by OCAML therefore if you have any problem with modelling you could contact me for help.
 
