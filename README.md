@@ -6,7 +6,7 @@ Email: cong-quy.trinh@it.uu.se
 This prototype is designed to verify lilearizability of concurrent algorithms implemented by singly-linked lists. 
 The prototype is implemented by OCAML and supports algorithms with both fixed and non-fixed linearization points. 
 
-Target algorithms are list-based concurrent algothims such as stacks, queues, ordered sets, unordered sets and CCAS.
+Target algorithms are list-based concurrent algorithms such as stacks, queues, ordered sets, unordered sets and CCAS.
 
 Installation
 ===============
@@ -98,9 +98,9 @@ end
  -------------------------------------------------------------------------------------------
 In this method, the modelling is done as following:
    + Variable declaration is modelled by the top four statements. 
-   + Stack initialisation is modelled by the statement at line 5. T
-   + The statement at line 8 models malloc statement(x = new Node) 
-   + The statements at lines 9,10,11,12 model assign statement(t = s), pointer assignment statement(x.next = t) and CAS statements respectively. 
+   + Stack initialisation is modelled by the statement at line 5. 
+   + The statement at line 8 models the malloc statement(x = new Node) 
+   + The statements at lines 9,10,11,12 model the assign statement(t = s), pointer assignment statement(x.next = t) and CAS statements respectively. 
    + Thread initialisation is modelled by the statement at line 7 while return statement is modeled by the statement at line 13. 
    + Finally the controller rule is modelled by statement (new R.validate_push 8 7 x). 
  
