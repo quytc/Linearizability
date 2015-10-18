@@ -7,15 +7,6 @@ This prototype is designed to verify lilearizability of concurrent algorithms im
 The prototype is implemented by OCAML and supports algorithms with both fixed and non-fixed linearization points. 
 
 Target algorithms are list-based concurrent algorithms such as stacks, queues, ordered sets, unordered sets and CCAS.
-- Arrays
-
-   Our prototype does not currently support arrays, and hence we have transformed arrays to singly-linked lists in the algorithms that use the former.
-
-- Shape Properties
-
-   Our prototype is also capable of verifying memory related safety properties such as the absence of
-   null pointer dereferencing, dangling pointers,  double-freeing, cycles, and dereferencing of freed nodes, as well as  sortedness. In fact,  for each algorithm, the time reported  is the sum of the times taken to show linearizability and all the properties mentioned above.
-
 
 Installation
 ===============
