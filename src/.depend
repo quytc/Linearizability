@@ -1,0 +1,116 @@
+globals.cmo : globals.cmi
+globals.cmx : globals.cmi
+debug.cmo : debug.cmi
+debug.cmx : debug.cmi
+data.cmo : data.cmi
+data.cmx : data.cmi
+label.cmo : label.cmi
+label.cmx : label.cmi
+observer.cmo : observer.cmi
+observer.cmx : observer.cmi
+promise.cmo : promise.cmi
+promise.cmx : promise.cmi
+joinset.cmo : joinset.cmi
+joinset.cmx : joinset.cmi
+info.cmo : info.cmi
+info.cmx : info.cmi
+constraint.cmo : label.cmi info.cmi debug.cmi data.cmi constraint.cmi
+constraint.cmx : label.cmx info.cmx debug.cmx data.cmx constraint.cmi
+rule.cmo : label.cmi constraint.cmi rule.cmi
+rule.cmx : label.cmx constraint.cmx rule.cmi
+example.cmo : rule.cmi constraint.cmi example.cmi
+example.cmx : rule.cmx constraint.cmx example.cmi
+workQueue.cmo : workQueue.cmi
+workQueue.cmx : workQueue.cmi
+forwardAnalysis.cmo : rule.cmi globals.cmi example.cmi debug.cmi \
+    constraint.cmi forwardAnalysis.cmi
+forwardAnalysis.cmx : rule.cmx globals.cmx example.cmx debug.cmx \
+    constraint.cmx forwardAnalysis.cmi
+treiber.cmo : rule.cmi label.cmi example.cmi constraint.cmi treiber.cmi
+treiber.cmx : rule.cmx label.cmx example.cmx constraint.cmx treiber.cmi
+unordered.cmo : rule.cmi label.cmi example.cmi constraint.cmi unordered.cmi
+unordered.cmx : rule.cmx label.cmx example.cmx constraint.cmx unordered.cmi
+optimistic.cmo : rule.cmi label.cmi example.cmi constraint.cmi \
+    optimistic.cmi
+optimistic.cmx : rule.cmx label.cmx example.cmx constraint.cmx \
+    optimistic.cmi
+pessimistic.cmo : rule.cmi label.cmi example.cmi constraint.cmi \
+    pessimistic.cmi
+pessimistic.cmx : rule.cmx label.cmx example.cmx constraint.cmx \
+    pessimistic.cmi
+lazyset.cmo : rule.cmi label.cmi example.cmi constraint.cmi lazyset.cmi
+lazyset.cmx : rule.cmx label.cmx example.cmx constraint.cmx lazyset.cmi
+HMset.cmo : rule.cmi label.cmi example.cmi constraint.cmi HMset.cmi
+HMset.cmx : rule.cmx label.cmx example.cmx constraint.cmx HMset.cmi
+THarris.cmo : rule.cmi label.cmi example.cmi constraint.cmi THarris.cmi
+THarris.cmx : rule.cmx label.cmx example.cmx constraint.cmx THarris.cmi
+MMichael.cmo : rule.cmi label.cmi example.cmi constraint.cmi MMichael.cmi
+MMichael.cmx : rule.cmx label.cmx example.cmx constraint.cmx MMichael.cmi
+Vechev.cmo : rule.cmi label.cmi example.cmi constraint.cmi Vechev.cmi
+Vechev.cmx : rule.cmx label.cmx example.cmx constraint.cmx Vechev.cmi
+Vechev_CAS.cmo : rule.cmi label.cmi example.cmi constraint.cmi \
+    Vechev_CAS.cmi
+Vechev_CAS.cmx : rule.cmx label.cmx example.cmx constraint.cmx \
+    Vechev_CAS.cmi
+CCAS.cmo : rule.cmi label.cmi example.cmi constraint.cmi CCAS.cmi
+CCAS.cmx : rule.cmx label.cmx example.cmx constraint.cmx CCAS.cmi
+RDCSS.cmo : rule.cmi label.cmi example.cmi constraint.cmi RDCSS.cmi
+RDCSS.cmx : rule.cmx label.cmx example.cmx constraint.cmx RDCSS.cmi
+Vechev_DCAS.cmo : rule.cmi label.cmi example.cmi constraint.cmi \
+    Vechev_DCAS.cmi
+Vechev_DCAS.cmx : rule.cmx label.cmx example.cmx constraint.cmx \
+    Vechev_DCAS.cmi
+MS.cmo : rule.cmi label.cmi example.cmi constraint.cmi MS.cmi
+MS.cmx : rule.cmx label.cmx example.cmx constraint.cmx MS.cmi
+ElimMS.cmo : rule.cmi label.cmi example.cmi constraint.cmi ElimMS.cmi
+ElimMS.cmx : rule.cmx label.cmx example.cmx constraint.cmx ElimMS.cmi
+twolockMS.cmo : rule.cmi label.cmi example.cmi constraint.cmi
+twolockMS.cmx : rule.cmx label.cmx example.cmx constraint.cmx
+DGLM.cmo : rule.cmi label.cmi example.cmi constraint.cmi DGLM.cmi
+DGLM.cmx : rule.cmx label.cmx example.cmx constraint.cmx DGLM.cmi
+HSYstack.cmo : rule.cmi label.cmi example.cmi constraint.cmi HSYstack.cmi
+HSYstack.cmx : rule.cmx label.cmx example.cmx constraint.cmx HSYstack.cmi
+HWqueue.cmo : rule.cmi label.cmi example.cmi constraint.cmi HWqueue.cmi
+HWqueue.cmx : rule.cmx label.cmx example.cmx constraint.cmx HWqueue.cmi
+main.cmo : Vechev_DCAS.cmi Vechev_CAS.cmi Vechev.cmi unordered.cmi \
+    twolockMS.cmo treiber.cmi THarris.cmi RDCSS.cmi pessimistic.cmi \
+    optimistic.cmi MS.cmi MMichael.cmi lazyset.cmi HWqueue.cmi HSYstack.cmi \
+    HMset.cmi globals.cmi forwardAnalysis.cmi ElimMS.cmi DGLM.cmi CCAS.cmi \
+    main.cmi
+main.cmx : Vechev_DCAS.cmx Vechev_CAS.cmx Vechev.cmx unordered.cmx \
+    twolockMS.cmx treiber.cmx THarris.cmx RDCSS.cmx pessimistic.cmx \
+    optimistic.cmx MS.cmx MMichael.cmx lazyset.cmx HWqueue.cmx HSYstack.cmx \
+    HMset.cmx globals.cmx forwardAnalysis.cmx ElimMS.cmx DGLM.cmx CCAS.cmx \
+    main.cmi
+globals.cmi :
+debug.cmi :
+data.cmi :
+label.cmi :
+observer.cmi :
+promise.cmi :
+joinset.cmi :
+info.cmi :
+constraint.cmi : label.cmi
+rule.cmi : label.cmi constraint.cmi
+example.cmi : rule.cmi constraint.cmi
+workQueue.cmi :
+forwardAnalysis.cmi : example.cmi
+treiber.cmi : example.cmi
+unordered.cmi : example.cmi
+optimistic.cmi : example.cmi
+pessimistic.cmi : example.cmi
+lazyset.cmi : example.cmi
+HMset.cmi : example.cmi
+THarris.cmi : example.cmi
+MMichael.cmi : example.cmi
+Vechev.cmi : example.cmi
+Vechev_CAS.cmi : example.cmi
+CCAS.cmi : example.cmi
+RDCSS.cmi : example.cmi
+Vechev_DCAS.cmi : example.cmi
+MS.cmi : example.cmi
+ElimMS.cmi : example.cmi
+DGLM.cmi : example.cmi
+HSYstack.cmi : example.cmi
+HWqueue.cmi : example.cmi
+main.cmi :
