@@ -54,7 +54,7 @@ Running Command
       
    For example: You can verify linearizability of Treiber algorithm by the command: 
    
-      $/run -p linearizability -e Treiber. 
+          $/run -p linearizability -e Treiber. 
    
    Here is the list of algorithms that you can run:  
       + Stack: Treiber, HSYstack
