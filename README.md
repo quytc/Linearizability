@@ -62,6 +62,7 @@ Running Command
       + Unordered set: Unordered
       + CAS algorithm: CCAS, RDCSS
 
+The source codes of algorithms can be found in the folder src. For example, treiber algorithm source codes is treiber.ml
 
 Input file format
 ==================   
