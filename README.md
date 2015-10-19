@@ -55,7 +55,7 @@ Running Command
           $./run -p linearizability -e treiber. 
    
    Here is the list of algorithms that you can run:  
-      + Stack: Treiber, HSYstack
+      + Stack: treiber, HSYstack
       + Queue: MS, TwolockMS; ElimMS; HWqueue; DGLM
       + Lock-based set: Pessimistic, Optimistic, Lazyset
       + Lock-free set: Vechev, Vechev_CAS, Vechev_DCAS, HMset, THarris, MMichael
