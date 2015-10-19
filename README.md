@@ -121,3 +121,8 @@ It might take some efforts to model algorithms by OCAML therefore if you have an
 How to make a new algorithm
 ================== 
 
+Assume that you want to make a new algorithm to verify named abc. You should follow the following steps:
+- Create abc.ml and put it in the folder src
+- Create abc.mli(same as .mli files of other algorithms) and put it in the folder src
+- Add abc.ml to the files list in src/makefile
+- Add this sentence | "abc" -> let module M = ForwardAnalysis.Algorithm(abc.Reset) in M.verify property "abc" to the run_example function in src/main.ml
