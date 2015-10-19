@@ -35,8 +35,6 @@ Running Command
    of the prototype.
 
    1. Build as usual. You only need to type make commands as follow:
-      
-     $ make clean
 
      $ make
 
