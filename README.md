@@ -103,6 +103,8 @@ end
 
  -------------------------------------------------------------------------------------------
 
+Each modelled statement consists of two program counters and an OCAML function modelling the input statement. The first counter specifies the current program counter of the statement whereas the second program counter specified the next program counter of the statement.
+
 In this method, the modelling is done as following:
    + Variable declaration is modelled by the top four statements. 
    + Stack initialisation is modelled by the statement at line 5. 
@@ -125,4 +127,3 @@ Assume that you want to make a new algorithm to verify named abc. You should fol
 - Add abc.ml to the files list in src/makefile
 - Add this sentence | "abc" -> let module M = ForwardAnalysis.Algorithm(abc.Reset) in M.verify property "abc" to the run_example function in src/main.ml
 
-Each modelled statement consists of two program counters and an OCAML function modelling the input statement. The first counter specifies the current program counter of the statement whereas the second program counter specified the next program counter of the statement.
