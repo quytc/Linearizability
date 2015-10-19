@@ -42,17 +42,17 @@ Running Command
    
       2.1. Verifying shape properties:
 
-         $/run -p shape -e algorithm_name
+         $./run -p shape -e algorithm_name
 
       2.2. Verifying linearizability:
       
-         $/run -p linearizability -e algorithm_name
+         $./run -p linearizability -e algorithm_name
       
       Where algorithm_name is the name of the verified algorithm.
       
    For example: You can verify linearizability of Treiber algorithm by the command: 
    
-          $/run -p linearizability -e Treiber. 
+          $./run -p linearizability -e treiber. 
    
    Here is the list of algorithms that you can run:  
       + Stack: Treiber, HSYstack
