@@ -2,8 +2,8 @@ SOURCES = globals.ml debug.ml data.ml label.ml observer.ml promise.ml \
           joinset.ml \
           info.ml constraint.ml rule.ml \
           example.ml workQueue.ml forwardAnalysis.ml \
-          example/treiber.ml  example/unordered.ml  example/optimistic.ml  example/pessimistic.ml  example/lazyset.ml  example/HMset.ml  example/THarris.ml  example/MMichael.ml  example/Vechev.ml  \
-           example/Vechev_CAS.ml  example/CCAS.ml  example/RDCSS.ml  example/Vechev_DCAS.ml  example/MS.ml example/ElimMS.ml  example/twolockMS.ml  example/DGLM.ml  example/HSYstack.ml  example/HWqueue.ml main.ml \
+          treiber.ml  unordered.ml  optimistic.ml  pessimistic.ml  lazyset.ml  HMset.ml  THarris.ml  MMichael.ml  Vechev.ml  \
+           Vechev_CAS.ml  CCAS.ml  RDCSS.ml  Vechev_DCAS.ml  MS.ml ElimMS.ml  twolockMS.ml  DGLM.ml  HSYstack.ml  HWqueue.ml main.ml \
 	      
 
 EXEC = ../run
