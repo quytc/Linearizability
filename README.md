@@ -117,3 +117,7 @@ In this method, the modelling is done as following:
 
 It might take some efforts to model algorithms by OCAML therefore if you have any problem with modelling you could contact me for help.
 
+
+How to make a new algorithm
+================== 
+
