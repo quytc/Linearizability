@@ -37,6 +37,7 @@ Running Command
    1. Build as usual. You only need to type make command as follow:
       
      $ make clean
+
      $ make
 
    2. Then you can run the prototype to verify the algorithm by the command 
