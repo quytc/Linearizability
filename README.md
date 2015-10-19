@@ -3,8 +3,8 @@
 Contact: Cong Quy Trinh, Department of Information Technology, Uppsala University
 Email: cong-quy.trinh@it.uu.se
 
-This prototype is designed to verify lilearizability of concurrent algorithms implemented by singly-linked lists. 
-The prototype is implemented by OCAML and supports algorithms with both fixed and non-fixed linearization points. 
+This prototype is designed to verify lilearizability of concurrent algorithms implemented using singly-linked lists. 
+The prototype is implemented in OCAML and supports algorithms with both fixed and non-fixed linearization points. 
 
 Target algorithms are list-based concurrent algorithms such as stacks, queues, ordered sets, unordered sets and CCAS.
 
@@ -34,7 +34,7 @@ Running Command
    The following assumes that you are in a shell in the main directory
    of the prototype.
 
-   1. Build as usual. You only need to type make command as follow:
+   1. Build as usual. You only need to type make commands as follow:
       
      $ make clean
 
