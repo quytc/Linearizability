@@ -52,9 +52,11 @@ Running Command
       
       Where algorithm_name is the name of the verified algorithm.
       
-   For example: You can verify linearizability of Treiber algorithm by the command: $/run -p linearizability -e Treiber. 
+   For example: You can verify linearizability of Treiber algorithm by the command: 
    
-   The algorithm examples can be found in \src\examples including 
+      $/run -p linearizability -e Treiber. 
+   
+   Here is the list of algorithms that you can run:  
       + Stack: Treiber, HSYstack
       + Queue: MS, TwolockMS; ElimMS; HWqueue; DGLM
       + Lock-based set: Pessimistic, Optimistic, Lazyset
