@@ -102,7 +102,8 @@ This is just early prototype, we have not made C-like syntax inputs for users. T
 end
 
  -------------------------------------------------------------------------------------------
-Each modelled statement consists of two program counters and an ocaml function modelling the input statement. The first counter spefifies the current program counter of the statement whereas the second program counter specified the next program counter of the statement. 
+
+Each modelled statement consists of two program counters and an OCAML function modelling the input statement. The first counter specifies the current program counter of the statement whereas the second program counter specified the next program counter of the statement.
 
 In this method, the modelling is done as following:
    + Variable declaration is modelled by the top four statements. 
