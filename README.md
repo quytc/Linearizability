@@ -102,6 +102,8 @@ This is just early prototype, we have not made C-like syntax inputs for users. T
 end
 
  -------------------------------------------------------------------------------------------
+Each modelled statement consists of two program counters and an ocaml function modelling the input statement. The first counter spefifies the current program counter of the statement whereas the second program counter specified the next program counter of the statement. 
+
 In this method, the modelling is done as following:
    + Variable declaration is modelled by the top four statements. 
    + Stack initialisation is modelled by the statement at line 5. 
@@ -110,5 +112,7 @@ In this method, the modelling is done as following:
    + Thread initialisation is modelled by the statement at line 7 while return statement is modeled by the statement at line 13. 
    + Finally the controller rule is modelled by statement (new R.validate_push 8 7 x). 
  
+
+
 It might take some efforts to model algorithms by OCAML therefore if you have any problem with modelling you could contact me for help.
 
