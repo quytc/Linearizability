@@ -13,7 +13,7 @@ Installation
 
 You will need: 
 
-* ocaml compiler (tested with version 4.01.1)
+* ocaml compiler (tested with version 4.01.1) 55
 * make  
 
 Getting Prototype
